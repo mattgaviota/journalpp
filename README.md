@@ -2,7 +2,7 @@
 
 A privacy-first journaling PWA built around a plugin system. Every tool is a self-contained module — add a new journaling technique from a book, a course, or your own practice by creating one folder and registering it. Your data never leaves your device.
 
-**Live:** [journalpp.app](https://journalpp.app) &nbsp;·&nbsp; **Contributions welcome** — see [Adding a Tool](#adding-a-tool) below.
+**Live demo:** [journalapp.nuntius.tech](https://journalapp.nuntius.tech) &nbsp;·&nbsp; **Contributions welcome** — see [Adding a Tool](#adding-a-tool) below.
 
 ---
 

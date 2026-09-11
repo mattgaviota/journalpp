@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { isFirstRun } from '../crypto/vault'
+import i18n, { SUPPORTED_LANGUAGES } from '../i18n'
 import { useJournalContext } from '../store/journal'
 import { periodicityBadgeKey } from '../tools/periodicity'
 import { registry } from '../tools/registry'
@@ -13,12 +14,38 @@ export default function Welcome() {
   const navigate = useNavigate()
   const firstRun = isFirstRun()
 
+  const currentLangIdx = SUPPORTED_LANGUAGES.findIndex((l) => l.code === i18n.resolvedLanguage)
+  const currentLang = SUPPORTED_LANGUAGES[currentLangIdx < 0 ? 0 : currentLangIdx]
+
+  function cycleLanguage() {
+    const next = SUPPORTED_LANGUAGES[(currentLangIdx + 1) % SUPPORTED_LANGUAGES.length]
+    i18n.changeLanguage(next.code)
+  }
+
   useEffect(() => {
     if (key) navigate('/', { replace: true })
   }, [key, navigate])
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
+      <div
+        className="sticky top-0 z-10 flex justify-end px-6 py-3 border-b"
+        style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
+      >
+        <button
+          onClick={cycleLanguage}
+          aria-label={t('aria.select_language')}
+          className="flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg border outline-none cursor-pointer"
+          style={{
+            background: 'var(--color-bg-secondary)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text-muted)',
+          }}
+        >
+          <span className="text-sm leading-none">{currentLang.flag}</span>
+          <span>{currentLang.label}</span>
+        </button>
+      </div>
       <div className="max-w-2xl mx-auto px-6 py-16 space-y-20">
 
         {/* ── Hero ─────────────────────────────────────────────────── */}

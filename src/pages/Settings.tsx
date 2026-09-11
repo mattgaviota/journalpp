@@ -116,6 +116,95 @@ function ChangePassphrase() {
   )
 }
 
+function RequestToolSection() {
+  const { t } = useTranslation()
+  const [toolName, setToolName] = useState('')
+  const [description, setDescription] = useState('')
+  const [link, setLink] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch('https://formspree.io/f/mzebwylk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ toolName, description, link }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.errors) throw new Error('failed')
+      setSuccess(true)
+      setToolName('')
+      setDescription('')
+      setLink('')
+    } catch {
+      setError(t('settings.request_tool_error'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-sm font-semibold uppercase tracking-wide"
+          style={{ color: 'var(--color-text-muted)' }}>
+        {t('settings.section_request_tool')}
+      </h2>
+      <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+        {t('settings.request_tool_hint')}
+      </p>
+      <div className="rounded-xl border p-4 space-y-3"
+           style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
+        {success ? (
+          <p className="text-sm" style={{ color: 'var(--color-success)' }}>{t('settings.request_tool_success')}</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-2">
+            <input
+              type="text"
+              value={toolName}
+              onChange={(e) => setToolName(e.target.value)}
+              placeholder={t('settings.request_tool_name')}
+              required
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', color: 'var(--color-text)' }}
+            />
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder={t('settings.request_tool_description')}
+              required
+              rows={3}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none resize-none"
+              style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', color: 'var(--color-text)' }}
+            />
+            <input
+              type="url"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              placeholder={t('settings.request_tool_link')}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', color: 'var(--color-text)' }}
+            />
+            {error && <p className="text-xs" style={{ color: 'var(--color-danger)' }}>{error}</p>}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-60"
+              style={{ background: 'var(--color-primary)' }}
+            >
+              {loading ? t('settings.request_tool_submitting') : t('settings.request_tool_submit')}
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
+  )
+}
+
 function AppSection() {
   const { t } = useTranslation()
   const { canInstall, install } = useInstallPrompt()
@@ -158,6 +247,7 @@ export default function Settings() {
     <div className="max-w-lg lg:max-w-2xl mx-auto space-y-6">
       <AppSection />
       <FavoriteToolsSection />
+      <RequestToolSection />
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide"
