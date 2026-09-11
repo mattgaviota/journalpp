@@ -8,7 +8,10 @@ export function getPeriodKey(periodicity: Periodicity, date: Date = new Date(), 
 
   if (periodicity === 'daily') {
     d.setDate(d.getDate() + offset)
-    return d.toISOString().slice(0, 10)
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${y}-${m}-${day}`
   }
 
   if (periodicity === 'weekly') {
@@ -70,6 +73,21 @@ export function getPeriodLabel(periodicity: Periodicity, periodKey: string | nul
 // Resolve with t(periodicityBadgeKey(periodicity)) in components.
 export function periodicityBadgeKey(periodicity: Periodicity): string {
   return `periodicity.${periodicity}`
+}
+
+/**
+ * Returns true if there's at least one entry for the given period key.
+ */
+export function hasPeriodEntry(data: unknown, periodKey: string | null): boolean {
+  if (!periodKey) return false
+  const d = data as Record<string, unknown>
+  if (Array.isArray(d?.entries)) {
+    return (d.entries as Array<{ date?: string }>).some((e) => e.date === periodKey)
+  }
+  if (Array.isArray(d?.weeks)) {
+    return (d.weeks as Array<{ weekStart?: string }>).some((w) => w.weekStart === periodKey)
+  }
+  return false
 }
 
 /**

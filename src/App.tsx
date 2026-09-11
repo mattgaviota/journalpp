@@ -7,7 +7,7 @@ import LockScreen from './pages/LockScreen'
 import Settings from './pages/Settings'
 import ToolsHome from './pages/ToolsHome'
 import Welcome from './pages/Welcome'
-import { JournalProvider, useJournalContext } from './store/journal'
+import { JournalProvider, useJournalContext, useToolData } from './store/journal'
 import { getPeriodKey } from './tools/periodicity'
 import { registry } from './tools/registry'
 
@@ -26,6 +26,7 @@ function ToolRoute({ toolId }: { toolId: string }) {
   const tool = registry.find((tool) => tool.id === toolId)!
   const [offset, setOffset] = useState(0)
   const periodKey = getPeriodKey(tool.periodicity, new Date(), offset)
+  const [data] = useToolData(tool)
 
   const ToolComponent = tool.component
   return (
@@ -35,6 +36,7 @@ function ToolRoute({ toolId }: { toolId: string }) {
       periodKey={periodKey}
       onPeriodChange={setOffset}
       periodOffset={offset}
+      entryData={data}
     >
       <ToolComponent periodKey={periodKey} />
     </Layout>

@@ -6,7 +6,13 @@ import wealthQuizTool from './index'
 import { computeScores, type WealthQuizResult, type WealthQuizStore } from './schema'
 
 function randomId() { return Math.random().toString(36).slice(2) }
-function todayDate() { return new Date().toISOString().slice(0, 10) }
+function todayDate() {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
 
 // ─── Quiz data ───────────────────────────────────────────────────────────────
 
