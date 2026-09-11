@@ -190,6 +190,14 @@ const es: Translation = {
     request_tool_submitting: 'Enviando…',
     request_tool_success: '¡Solicitud enviada! Gracias por la sugerencia.',
     request_tool_error: 'Algo salió mal. Por favor intenta de nuevo.',
+    section_danger: 'Zona de peligro',
+    delete_data_title: 'Eliminar todos los datos',
+    delete_data_hint: 'Esto borrará permanentemente todas tus entradas del diario y configuraciones de este dispositivo. Esta acción no se puede deshacer.',
+    delete_data_btn: 'Eliminar todos los datos',
+    delete_data_confirm_label: 'Escribe el código a continuación para confirmar:',
+    delete_data_confirm_btn: 'Eliminar permanentemente',
+    delete_data_cancel: 'Cancelar',
+    delete_data_code_mismatch: 'El código no coincide.',
   },
 
   pwa: {

@@ -203,6 +203,14 @@ const en = {
     request_tool_submitting: 'Sending…',
     request_tool_success: 'Request sent! Thanks for the suggestion.',
     request_tool_error: 'Something went wrong. Please try again.',
+    section_danger: 'Danger Zone',
+    delete_data_title: 'Delete all data',
+    delete_data_hint: 'This will permanently erase all your journal entries and settings from this device. This action cannot be undone.',
+    delete_data_btn: 'Delete all data',
+    delete_data_confirm_label: 'Type the code below to confirm:',
+    delete_data_confirm_btn: 'Permanently delete',
+    delete_data_cancel: 'Cancel',
+    delete_data_code_mismatch: 'The code does not match.',
   },
 
   pwa: {
