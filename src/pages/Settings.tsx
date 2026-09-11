@@ -1,5 +1,5 @@
-import { Download, LogOut, RefreshCw } from 'lucide-react'
-import { useState } from 'react'
+import { Download, LogOut, RefreshCw, Trash2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { deriveKey, getSalt, reencryptAll, verifySentinel } from '../crypto/vault'
@@ -205,6 +205,117 @@ function RequestToolSection() {
   )
 }
 
+function DeleteDataSection() {
+  const { t } = useTranslation()
+  const { clearKey } = useJournalContext()
+  const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
+  const [input, setInput] = useState('')
+  const [error, setError] = useState('')
+
+  const code = useMemo(() => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+    return Array.from(crypto.getRandomValues(new Uint8Array(10)))
+      .map(b => chars[b % chars.length])
+      .join('')
+  }, [open]) // regenerate each time the dialog opens
+
+  function openDialog() {
+    setInput('')
+    setError('')
+    setOpen(true)
+  }
+
+  function handleDelete() {
+    if (input !== code) {
+      setError(t('settings.delete_data_code_mismatch'))
+      return
+    }
+    Object.keys(localStorage)
+      .filter(k => k.startsWith('jrnl_'))
+      .forEach(k => localStorage.removeItem(k))
+    clearKey()
+    navigate('/lock')
+  }
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-sm font-semibold uppercase tracking-wide"
+          style={{ color: 'var(--color-danger)' }}>
+        {t('settings.section_danger')}
+      </h2>
+      <div className="rounded-xl border p-4 space-y-3"
+           style={{ background: 'var(--color-surface)', borderColor: 'var(--color-danger)' }}>
+        <div>
+          <p className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
+            {t('settings.delete_data_title')}
+          </p>
+          <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+            {t('settings.delete_data_hint')}
+          </p>
+        </div>
+        <button
+          onClick={openDialog}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white"
+          style={{ background: 'var(--color-danger)' }}>
+          <Trash2 className="w-4 h-4" />
+          {t('settings.delete_data_btn')}
+        </button>
+      </div>
+
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+             style={{ background: 'rgba(0,0,0,0.6)' }}>
+          <div className="w-full max-w-sm rounded-2xl p-6 space-y-4"
+               style={{ background: 'var(--color-surface)', border: '1px solid var(--color-danger)' }}>
+            <h3 className="text-base font-semibold" style={{ color: 'var(--color-text)' }}>
+              {t('settings.delete_data_title')}
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+              {t('settings.delete_data_hint')}
+            </p>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-muted)' }}>
+              {t('settings.delete_data_confirm_label')}
+            </p>
+            <div className="text-center py-2 px-4 rounded-lg font-mono text-lg font-bold tracking-widest select-none"
+                 style={{ background: 'var(--color-bg)', color: 'var(--color-danger)', userSelect: 'none' }}>
+              {code}
+            </div>
+            <input
+              type="text"
+              value={input}
+              onChange={e => { setInput(e.target.value); setError('') }}
+              onCopy={e => e.preventDefault()}
+              onCut={e => e.preventDefault()}
+              onPaste={e => e.preventDefault()}
+              autoComplete="off"
+              spellCheck={false}
+              placeholder={code}
+              className="w-full px-3 py-2 rounded-lg border text-sm font-mono text-center outline-none tracking-widest"
+              style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', color: 'var(--color-text)' }}
+            />
+            {error && <p className="text-xs" style={{ color: 'var(--color-danger)' }}>{error}</p>}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setOpen(false)}
+                className="flex-1 py-2 rounded-lg text-sm font-semibold border"
+                style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}>
+                {t('settings.delete_data_cancel')}
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex-1 py-2 rounded-lg text-sm font-semibold text-white"
+                style={{ background: 'var(--color-danger)' }}>
+                {t('settings.delete_data_confirm_btn')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
 function AppSection() {
   const { t } = useTranslation()
   const { canInstall, install } = useInstallPrompt()
@@ -261,6 +372,8 @@ export default function Settings() {
           <LogOut className="w-4 h-4" />{t('settings.btn_lock')}
         </button>
       </section>
+
+      <DeleteDataSection />
 
       <section className="space-y-1 pb-4">
         <h2 className="text-sm font-semibold uppercase tracking-wide"
