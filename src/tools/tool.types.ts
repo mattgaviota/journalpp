@@ -31,6 +31,7 @@ export interface Exporter {
 
 export interface ToolProps {
   periodKey: string | null
+  onSave?: () => void
 }
 
 export interface JournalTool<T = unknown> {

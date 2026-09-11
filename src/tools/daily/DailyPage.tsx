@@ -1,14 +1,15 @@
-import { Check } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSaveConfirmation } from '../../hooks/useSaveConfirmation'
 import { useToolData } from '../../store/journal'
 import type { ToolProps } from '../tool.types'
 import dailyTool from './index'
 import type { DailyEntry, DailyStore } from './schema'
 
 function randomId() { return Math.random().toString(36).slice(2) }
-function todayDate() { return new Date().toISOString().slice(0, 10) }
+function todayDate() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 function PastEntry({ entry }: { entry: DailyEntry }) {
   const { t } = useTranslation()
@@ -43,14 +44,12 @@ function PastEntry({ entry }: { entry: DailyEntry }) {
   )
 }
 
-export default function DailyPage({ periodKey }: ToolProps) {
+export default function DailyPage({ periodKey, onSave }: ToolProps) {
   const { t } = useTranslation()
   const [data, save] = useToolData<DailyStore>(dailyTool)
   const dateKey = periodKey ?? todayDate()
   const todayEntry = data.entries.find((e) => e.date === dateKey)
   const [content, setContent] = useState('')
-  const { saved, withConfirmation } = useSaveConfirmation()
-
   useEffect(() => {
     setContent(todayEntry?.content ?? '')
   }, [dateKey, todayEntry?.id]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -76,13 +75,10 @@ export default function DailyPage({ periodKey }: ToolProps) {
           placeholder={t('daily.placeholder')}
           className="w-full text-sm outline-none resize-none bg-transparent"
           style={{ color: 'var(--color-text)', minHeight: '160px' }} />
-        <button onClick={() => withConfirmation(handleSave)}
-          className="mt-3 w-full py-2.5 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2"
-          style={{
-            background: saved ? 'var(--color-success)' : 'var(--color-primary)',
-            transition: 'background-color 250ms ease',
-          }}>
-          {saved ? <><Check className="w-4 h-4" />{t('common.saved')}</> : t('daily.btn_save')}
+        <button onClick={async () => { await handleSave(); onSave?.() }}
+          className="mt-3 w-full py-2.5 rounded-xl text-sm font-semibold text-white"
+          style={{ background: 'var(--color-primary)' }}>
+          {t('daily.btn_save')}
         </button>
       </div>
 

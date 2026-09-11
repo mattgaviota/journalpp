@@ -1,12 +1,33 @@
-import { HelpCircle } from 'lucide-react'
-import { useState } from 'react'
+import { Check, HelpCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import HowToUseDrawer from '../components/HowToUseDrawer'
 import { useToolData } from '../store/journal'
 import { hasEntryForCurrentPeriod, periodicityBadgeKey } from '../tools/periodicity'
 import { registry } from '../tools/registry'
 import type { JournalTool } from '../tools/tool.types'
+
+function CompletionToast({ message }: { message: string }) {
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const id = setTimeout(() => setVisible(false), 3000)
+    return () => clearTimeout(id)
+  }, [])
+
+  if (!visible) return null
+
+  return (
+    <div
+      className="fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-3 rounded-2xl shadow-lg text-sm font-semibold pointer-events-none"
+      style={{ background: 'var(--color-success)', color: '#fff', whiteSpace: 'nowrap' }}
+    >
+      <Check className="w-4 h-4 flex-shrink-0" />
+      {message}
+    </div>
+  )
+}
 
 function ToolCard({ tool }: { tool: JournalTool }) {
   const { t } = useTranslation()
@@ -93,14 +114,25 @@ function ToolCard({ tool }: { tool: JournalTool }) {
 
 export default function ToolsHome() {
   const { t } = useTranslation()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const savedTool = (location.state as { savedTool?: string } | null)?.savedTool
+
+  useEffect(() => {
+    if (savedTool) navigate('/', { replace: true, state: {} })
+  }, [savedTool, navigate])
+
   return (
-    <div className="max-w-lg lg:max-w-2xl mx-auto space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
-      <p className="text-sm lg:col-span-2" style={{ color: 'var(--color-text-muted)' }}>
-        {t('home.intro')}
-      </p>
-      {registry.map((tool) => (
-        <ToolCard key={tool.id} tool={tool} />
-      ))}
-    </div>
+    <>
+      {savedTool && <CompletionToast message={t('home.saved_toast', { name: savedTool })} />}
+      <div className="max-w-lg lg:max-w-2xl mx-auto space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
+        <p className="text-sm lg:col-span-2" style={{ color: 'var(--color-text-muted)' }}>
+          {t('home.intro')}
+        </p>
+        {registry.map((tool) => (
+          <ToolCard key={tool.id} tool={tool} />
+        ))}
+      </div>
+    </>
   )
 }

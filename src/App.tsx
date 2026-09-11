@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Layout from './components/Layout'
@@ -23,10 +23,15 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
 function ToolRoute({ toolId }: { toolId: string }) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const tool = registry.find((tool) => tool.id === toolId)!
   const [offset, setOffset] = useState(0)
   const periodKey = getPeriodKey(tool.periodicity, new Date(), offset)
   const [data] = useToolData(tool)
+
+  const handleSaved = useCallback(() => {
+    navigate('/', { state: { savedTool: t(tool.name) } })
+  }, [navigate, t, tool.name])
 
   const ToolComponent = tool.component
   return (
@@ -38,7 +43,7 @@ function ToolRoute({ toolId }: { toolId: string }) {
       periodOffset={offset}
       entryData={data}
     >
-      <ToolComponent periodKey={periodKey} />
+      <ToolComponent periodKey={periodKey} onSave={handleSaved} />
     </Layout>
   )
 }

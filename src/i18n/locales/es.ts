@@ -66,6 +66,7 @@ const es: Translation = {
     btn_open: 'Abrir',
     status_logged: 'Registrado en este período',
     status_not_logged: 'Aún sin registrar',
+    saved_toast: '¡{{name}} completado!',
     how_to_use_title: 'Cómo usar {{name}}',
   },
 
@@ -151,6 +152,9 @@ const es: Translation = {
   },
 
   settings: {
+    section_app: 'Aplicación',
+    btn_install: 'Instalar app',
+    btn_get_updates: 'Obtener actualizaciones',
     section_favorites: 'Herramientas favoritas',
     favorites_hint: 'Selecciona hasta 3 herramientas para mostrar en el botón de acceso rápido.',
     section_export: 'Exportar e importar',
@@ -177,6 +181,11 @@ const es: Translation = {
     err_mismatch: 'Las nuevas contraseñas no coinciden.',
     err_wrong_current: 'La contraseña actual es incorrecta.',
     err_generic: 'Algo salió mal.',
+  },
+
+  pwa: {
+    update_available: 'Nueva versión disponible',
+    btn_update: 'Actualizar ahora',
   },
 
   tools: {

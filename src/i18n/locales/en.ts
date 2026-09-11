@@ -69,6 +69,7 @@ const en = {
     btn_open: 'Open',
     status_logged: 'Logged this period',
     status_not_logged: 'Not logged yet',
+    saved_toast: '{{name}} logged!',
     how_to_use_title: 'How to use {{name}}',
   },
 
@@ -164,6 +165,9 @@ const en = {
 
   // ── Settings ─────────────────────────────────────────────────────────
   settings: {
+    section_app: 'App',
+    btn_install: 'Install app',
+    btn_get_updates: 'Get updates',
     section_favorites: 'Favorite Tools',
     favorites_hint: 'Select up to 3 tools to show in the quick-access button.',
     section_export: 'Export & Import',
@@ -190,6 +194,11 @@ const en = {
     err_mismatch: 'New passphrases do not match.',
     err_wrong_current: 'Current passphrase is wrong.',
     err_generic: 'Something went wrong.',
+  },
+
+  pwa: {
+    update_available: 'New version available',
+    btn_update: 'Update now',
   },
 
   // ── Tool metadata (name + summary; howToUse is below) ────────────────

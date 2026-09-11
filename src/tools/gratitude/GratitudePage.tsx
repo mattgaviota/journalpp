@@ -1,14 +1,16 @@
-import { Check, Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSaveConfirmation } from '../../hooks/useSaveConfirmation'
 import { useToolData } from '../../store/journal'
 import type { ToolProps } from '../tool.types'
 import gratitudeTool from './index'
 import type { GratitudeEntry, GratitudeStore } from './schema'
 
 function randomId() { return Math.random().toString(36).slice(2) }
-function todayDate() { return new Date().toISOString().slice(0, 10) }
+function todayDate() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 function EntryEditor({ entry, onChange }: { entry: GratitudeEntry; onChange: (e: GratitudeEntry) => void }) {
   const { t } = useTranslation()
@@ -83,14 +85,12 @@ function PastEntry({ entry }: { entry: GratitudeEntry }) {
   )
 }
 
-export default function GratitudePage({ periodKey }: ToolProps) {
+export default function GratitudePage({ periodKey, onSave }: ToolProps) {
   const { t } = useTranslation()
   const [data, save] = useToolData<GratitudeStore>(gratitudeTool)
   const dateKey = periodKey ?? todayDate()
   const todayEntry = data.entries.find((e) => e.date === dateKey)
   const [draft, setDraft] = useState<GratitudeEntry | null>(null)
-  const { saved, withConfirmation } = useSaveConfirmation()
-
   useEffect(() => {
     setDraft(todayEntry ?? { id: randomId(), date: dateKey, items: ['', '', ''] })
   }, [dateKey, todayEntry?.id]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -117,13 +117,10 @@ export default function GratitudePage({ periodKey }: ToolProps) {
         <div onBlur={handleSave}>
           <EntryEditor entry={draft} onChange={setDraft} />
         </div>
-        <button onClick={() => withConfirmation(handleSave)}
-          className="w-full py-2.5 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2"
-          style={{
-            background: saved ? 'var(--color-success)' : 'var(--color-primary)',
-            transition: 'background-color 250ms ease',
-          }}>
-          {saved ? <><Check className="w-4 h-4" />{t('common.saved')}</> : t('gratitude.btn_save')}
+        <button onClick={async () => { await handleSave(); onSave?.() }}
+          className="w-full py-2.5 rounded-xl text-sm font-semibold text-white"
+          style={{ background: 'var(--color-primary)' }}>
+          {t('gratitude.btn_save')}
         </button>
       </div>
 
