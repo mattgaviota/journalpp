@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { SUPPORTED_LANGUAGES } from '../i18n'
 import { useSidebarState } from '../hooks/useSidebarState'
-import { useUpdateSW } from '../hooks/usePWA'
 import { getPeriodKey, getPeriodLabel, hasPeriodEntry } from '../tools/periodicity'
 import { registry } from '../tools/registry'
 import type { Periodicity } from '../tools/tool.types'
@@ -268,7 +267,6 @@ export default function Layout({ title, children, periodicity, periodKey, period
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [toolSettingsOpen, setToolSettingsOpen] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
-  const { updateAvailable, applyUpdate } = useUpdateSW()
 
   const isHome = location.pathname === '/'
   const isSettings = location.pathname === '/settings'
@@ -358,23 +356,6 @@ export default function Layout({ title, children, periodicity, periodKey, period
             {themeIcon}
           </button>
         </header>
-
-        {/* Update banner */}
-        {updateAvailable && (
-          <div
-            className="flex items-center justify-between px-4 py-2 gap-3 text-sm"
-            style={{ background: 'var(--color-primary)', color: '#fff' }}
-          >
-            <span className="font-medium">{t('pwa.update_available')}</span>
-            <button
-              onClick={applyUpdate}
-              className="px-3 py-1 rounded-lg text-xs font-semibold flex-shrink-0"
-              style={{ background: 'rgba(255,255,255,0.2)' }}
-            >
-              {t('pwa.btn_update')}
-            </button>
-          </div>
-        )}
 
         {/* Period navigation */}
         {hasPeriodNav && (

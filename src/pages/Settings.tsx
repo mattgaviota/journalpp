@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { deriveKey, getSalt, reencryptAll, verifySentinel } from '../crypto/vault'
 import { MAX_FAVORITES, useFavorites } from '../hooks/useFavorites'
-import { useInstallPrompt, useUpdateSW } from '../hooks/usePWA'
+import { useInstallPrompt } from '../hooks/usePWA'
 import { useJournalContext } from '../store/journal'
 import { registry } from '../tools/registry'
 
@@ -119,9 +119,6 @@ function ChangePassphrase() {
 function AppSection() {
   const { t } = useTranslation()
   const { canInstall, install } = useInstallPrompt()
-  const { updateAvailable, applyUpdate } = useUpdateSW()
-
-  if (!canInstall && !updateAvailable) return null
 
   return (
     <section className="space-y-3">
@@ -137,13 +134,11 @@ function AppSection() {
             <Download className="w-4 h-4" />{t('settings.btn_install')}
           </button>
         )}
-        {updateAvailable && (
-          <button onClick={applyUpdate}
-            className="flex items-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold border"
-            style={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)' }}>
-            <RefreshCw className="w-4 h-4" />{t('settings.btn_get_updates')}
-          </button>
-        )}
+        <button onClick={() => window.location.reload()}
+          className="flex items-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold border"
+          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}>
+          <RefreshCw className="w-4 h-4" />{t('settings.btn_get_updates')}
+        </button>
       </div>
     </section>
   )
