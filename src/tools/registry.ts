@@ -3,6 +3,7 @@ import gratitudeTool from './gratitude'
 import dailyTool from './daily'
 import pmnTool from './pmn'
 import wealthQuizTool from './wealth-quiz'
+import tinyExperimentsTool from './tiny-experiments'
 
 // Add new tools here — routes and UI are generated automatically
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,4 +12,5 @@ export const registry: JournalTool<any>[] = [
   dailyTool,
   pmnTool,
   wealthQuizTool,
+  tinyExperimentsTool,
 ]

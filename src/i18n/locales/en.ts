@@ -213,6 +213,65 @@ const en = {
     delete_data_code_mismatch: 'The code does not match.',
   },
 
+  // ── Tiny Experiments ────────────────────────────────────────────────────────
+  tiny_experiments: {
+    // Form
+    i_will: 'I will',
+    action_placeholder: '…do something every day',
+    end_date_label: 'Until',
+    frequency: 'Frequency',
+    daily: 'Daily',
+    weekly: 'Weekly',
+    max_duration_note: 'Maximum 4 months from today.',
+    btn_start: 'Start experiment',
+    btn_cancel: 'Cancel',
+
+    // Active view
+    create_title: 'Start a Tiny Experiment',
+    no_pact_title: 'No active experiment',
+    no_pact_body: 'A tiny experiment is a pact you make with yourself: "I will [action] for [duration]." Start small, stay curious.',
+    active_experiment: 'Active experiment',
+    experiment_ended: 'Experiment ended',
+    progress_label: '{{accomplished}} of {{total}} days done',
+
+    // Actions
+    btn_pause: 'Pause',
+    btn_pivot: 'Pivot',
+    btn_persist: 'Persist',
+
+    // Persist
+    persist_title: 'Extend the experiment',
+    persist_body: 'Choose a new end date to keep going.',
+    new_end_date: 'New end date',
+    btn_confirm_persist: 'Extend',
+    mark_all_to_persist: '{{count}} day(s) still unmarked — mark them all to unlock Persist.',
+
+    // Pause
+    pause_title: 'Pause this experiment?',
+    pause_body: 'The experiment will be archived. You can start a new one any time.',
+    btn_confirm_pause: 'Yes, pause',
+    btn_resume: 'Resume experiment',
+
+    // Pivot
+    pivot_title: 'Pivot — change direction',
+    pivot_body: 'Modify the action or duration and start a fresh experiment.',
+
+    // Calendar
+    legend_done: 'Done',
+    legend_missed: 'Missed',
+    legend_unmarked: 'Unmarked',
+
+    // Stats / persist
+    completion: 'Completion',
+
+    // History
+    history_title: 'Past experiments',
+    outcome_paused: 'Paused',
+    outcome_pivoted: 'Pivoted',
+    outcome_completed: 'Completed',
+    pivoted_from: 'Pivoted from: {{action}}',
+  },
+
   pwa: {
     update_available: 'New version available',
     btn_update: 'Update now',
@@ -313,6 +372,37 @@ A five-minute weekly review in three columns. Created by **Anne-Laure Le Cunff**
 ### Source
 
 From *Tiny Experiments* by Anne-Laure Le Cunff (Ness Labs). The full method treats each week as a small, low-stakes experiment — observe, adjust, repeat.`,
+    },
+
+    tiny_experiments: {
+      name: 'Tiny Experiments',
+      summary: 'Time-boxed pacts to test new habits — define, track, and reflect.',
+      howToUse: `## Tiny Experiments
+
+A tiny experiment is a structured, time-boxed commitment to test a new habit or behavior. Borrowed from the **PACT** method (Purposeful, Actionable, Continuous, Trackable) by Anne-Laure Le Cunff of Ness Labs, it replaces vague goals with concrete, self-contained experiments.
+
+The format is simple: **"I will [action] for [duration]."**
+
+### How to use it
+
+1. **Define a pact** — write a clear, specific action and choose an end date (up to 4 months).
+2. **Set the frequency** — daily, or on specific days of the week.
+3. **Check in** — tap each scheduled day on the calendar: ✓ done, ✗ missed.
+4. **Decide at the end** — when your experiment finishes:
+   - **Persist** — it's working, extend it (mark all days first to unlock this)
+   - **Pause** — stop and archive, free to start a new one
+   - **Pivot** — change direction, start a new experiment with a modified action
+
+### Tips
+
+- **Pause and Pivot** are always available — if something isn't working, you don't have to wait until the end.
+- **Be honest** — mark missed days too. The log is for you, not for show.
+- Keep experiments **small and specific**: "I will write 200 words every morning" beats "I will become a writer."
+- The 4-month cap is intentional — long enough to build data, short enough to stay fresh.
+
+### Source
+
+From *Tiny Experiments* by Anne-Laure Le Cunff (Ness Labs). Also based on the PACT framework described at [nesslabs.com/smart-goals-pact](https://nesslabs.com/smart-goals-pact).`,
     },
 
     wealth_quiz: {

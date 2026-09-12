@@ -200,12 +200,102 @@ const es: Translation = {
     delete_data_code_mismatch: 'El código no coincide.',
   },
 
+  // ── Tiny Experiments ────────────────────────────────────────────────────────
+  tiny_experiments: {
+    // Form
+    i_will: 'Voy a',
+    action_placeholder: '…hacer algo cada día',
+    end_date_label: 'Hasta',
+    frequency: 'Frecuencia',
+    daily: 'Diario',
+    weekly: 'Semanal',
+    max_duration_note: 'Máximo 4 meses desde hoy.',
+    btn_start: 'Iniciar experimento',
+    btn_cancel: 'Cancelar',
+
+    // Active view
+    create_title: 'Inicia un Pequeño Experimento',
+    no_pact_title: 'Sin experimento activo',
+    no_pact_body: 'Un pequeño experimento es un pacto contigo mismo: "Voy a [acción] durante [duración]." Empieza pequeño, mantén la curiosidad.',
+    active_experiment: 'Experimento activo',
+    experiment_ended: 'Experimento finalizado',
+    progress_label: '{{accomplished}} de {{total}} días completados',
+
+    // Actions
+    btn_pause: 'Pausar',
+    btn_pivot: 'Pivotar',
+    btn_persist: 'Persistir',
+
+    // Persist
+    persist_title: 'Extender el experimento',
+    persist_body: 'Elige una nueva fecha de fin para continuar.',
+    new_end_date: 'Nueva fecha de fin',
+    btn_confirm_persist: 'Extender',
+    mark_all_to_persist: '{{count}} día(s) sin marcar — márcalos todos para desbloquear Persistir.',
+
+    // Pause
+    pause_title: '¿Pausar este experimento?',
+    pause_body: 'El experimento se archivará. Puedes iniciar uno nuevo cuando quieras.',
+    btn_confirm_pause: 'Sí, pausar',
+    btn_resume: 'Reanudar experimento',
+
+    // Pivot
+    pivot_title: 'Pivotar — cambiar de rumbo',
+    pivot_body: 'Modifica la acción o la duración y comienza un experimento nuevo.',
+
+    // Calendar
+    legend_done: 'Hecho',
+    legend_missed: 'Fallido',
+    legend_unmarked: 'Sin marcar',
+
+    // Stats
+    completion: 'Completado',
+
+    // History
+    history_title: 'Experimentos pasados',
+    outcome_paused: 'Pausado',
+    outcome_pivoted: 'Pivotado',
+    outcome_completed: 'Completado',
+    pivoted_from: 'Pivotado de: {{action}}',
+  },
+
   pwa: {
     update_available: 'Nueva versión disponible',
     btn_update: 'Actualizar ahora',
   },
 
   tools: {
+    tiny_experiments: {
+      name: 'Pequeños Experimentos',
+      summary: 'Pactos con tiempo limitado para probar nuevos hábitos — define, registra y reflexiona.',
+      howToUse: `## Pequeños Experimentos
+
+Un pequeño experimento es un compromiso estructurado y con tiempo definido para probar un nuevo hábito o comportamiento. Basado en el método **PACT** (Intencional, Accionable, Continuo, Rastreable) de Anne-Laure Le Cunff de Ness Labs.
+
+El formato es simple: **"Voy a [acción] durante [duración]."**
+
+### Cómo usarlo
+
+1. **Define un pacto** — escribe una acción clara y específica, y elige una fecha de fin (hasta 4 meses).
+2. **Establece la frecuencia** — diario, o en días específicos de la semana.
+3. **Registra cada día** — toca el día en el calendario: ✓ hecho, ✗ fallido.
+4. **Decide al finalizar** — cuando termine tu experimento:
+   - **Persistir** — está funcionando, extiéndelo (primero debes marcar todos los días)
+   - **Pausar** — archívalo y empieza uno nuevo cuando quieras
+   - **Pivotar** — cambia de rumbo con una acción modificada
+
+### Consejos
+
+- **Pausar y Pivotar** siempre están disponibles — no tienes que esperar al final.
+- **Sé honesto** — marca también los días fallidos. El registro es para ti.
+- Mantén los experimentos **pequeños y específicos**.
+- El límite de 4 meses es intencional — suficiente para obtener datos, suficientemente corto para mantenerse fresco.
+
+### Fuente
+
+De *Tiny Experiments* de Anne-Laure Le Cunff (Ness Labs).`,
+    },
+
     gratitude: {
       name: 'Diario de Gratitud',
       summary: 'Escribe 3 a 5 cosas por las que estés agradecido cada día.',
